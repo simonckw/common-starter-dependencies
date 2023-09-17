@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>3.1.3</version>
+    <relativePath />
+  </parent>
+
+  <groupId>io.sckw.common</groupId>
+  <artifactId>common-dependencies</artifactId>
+  <version>${revision}${sha1}${changelist}</version>
+  <packaging>pom</packaging>
+  <name>common-dependencies</name>
+  <description>Common Dependencies for Spring Boot Applications</description>
+
+  <properties>
+    <revision>1.0.0</revision>         <!-- major.minor.patch -->
+    <sha1>-1</sha1>                    <!-- release candidate -->
+    <changelist>-SNAPSHOT</changelist> <!-- -SNAPSHOT or ""   -->
+
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <java.version>17</java.version>
+
+    <flatten-maven-plugin.version>1.5.0</flatten-maven-plugin.version>
+
+    <spring-boot.version>3.1.3</spring-boot.version>
+    <spring-cloud.version>2022.0.3</spring-cloud.version>
+
+    <lombok.version>1.18.28</lombok.version>
+
+    <springdoc.version>2.2.0</springdoc.version>
+
+    <mq-jms-spring.version>3.1.2</mq-jms-spring.version>
+
+    <shedlock.version>5.7.0</shedlock.version>
+
+    <testcontainers.version>1.19.0</testcontainers.version>
+
+    <equalsverifier.version>3.15.1</equalsverifier.version>
+    <logcaptor.version>2.9.0</logcaptor.version>
+
+    <squareup-okhttp3.version>4.11.0</squareup-okhttp3.version>
+
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-data-rest</artifactId>
+        <version>${spring-boot.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-dependencies</artifactId>
+        <version>${spring-cloud.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.projectlombok</groupId>
+        <artifactId>lombok</artifactId>
+        <version>${lombok.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.springdoc</groupId>
+        <artifactId>springdoc-openapi-starter-webmvc-api</artifactId>
+        <version>${springdoc.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springdoc</groupId>
+        <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+        <version>${springdoc.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.ibm.mq</groupId>
+        <artifactId>mq-jms-spring-boot-starter</artifactId>
+        <version>${mq-jms-spring.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>net.javacrumbs.shedlock</groupId>
+        <artifactId>shedlock-spring</artifactId>
+        <version>${shedlock.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.testcontainers</groupId>
+        <artifactId>testcontainers</artifactId>
+        <version>${testcontainers.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.testcontainers</groupId>
+        <artifactId>junit-jupiter</artifactId>
+        <version>${testcontainers.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>nl.jqno.equalsverifier</groupId>
+        <artifactId>equalsverifier</artifactId>
+        <version>${equalsverifier.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.hakky54</groupId>
+        <artifactId>logcaptor</artifactId>
+        <version>${logcaptor.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.squareup.okhttp3</groupId>
+        <artifactId>okhttp</artifactId>
+        <version>${squareup-okhttp3.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.squareup.okhttp3</groupId>
+        <artifactId>mockwebserver</artifactId>
+        <version>${squareup-okhttp3.version}</version>
+      </dependency>
+
+    </dependencies>
+  </dependencyManagement>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>flatten-maven-plugin</artifactId>
+          <version>${flatten-maven-plugin.version}</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>flatten-maven-plugin</artifactId>
+        <configuration>
+          <updatePomFile>true</updatePomFile>
+          <flattenMode>resolveCiFriendliesOnly</flattenMode>
+        </configuration>
+        <executions>
+          <execution>
+            <id>flatten</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>flatten</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>flatten.clean</id>
+            <phase>clean</phase>
+            <goals>
+              <goal>clean</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+  <!-- <distributionManagement>
+    <repository>
+      <id>nexus-releases</id>
+      <url>https://nexus.sckw.io:443/repository/maven-releases/</url>
+      <uniqueVersion>false</uniqueVersion>
+    </repository>
+    <snapshotRepository>
+      <id>nexus-snapshots</id>
+      <url>https://nexus.sckw.io:443/repository/maven-snapshots/</url>
+      <uniqueVersion>true</uniqueVersion>
+    </snapshotRepository>
+  </distributionManagement> -->
+
+</project>
